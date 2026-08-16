@@ -1,0 +1,4 @@
+# Local preview scratch. Everything the profile needs is committed; these are
+# just the rendered proofs used while working on it.
+tools/_*
+__pycache__/

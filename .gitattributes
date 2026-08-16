@@ -1,0 +1,4 @@
+# The workflow runs on a Linux runner, so keep its shell block LF regardless of
+# what the checkout looks like on Windows.
+* text=auto eol=lf
+*.png binary

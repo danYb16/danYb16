@@ -1,0 +1,58 @@
+name: live panels
+
+# Redraws the three panels that carry live state:
+#   assets/hero.svg      status lights from a real request to each product site
+#   assets/stats.svg     the product's public stats endpoint
+#   assets/activity.svg  the public contribution feed
+#
+# Daily, plus a manual run from the Actions tab. No secrets and no third-party
+# actions: every source is public, so nothing here needs a token beyond the
+# checkout.
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-panels
+  cancel-in-progress: true
+
+jobs:
+  redraw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Each panel fails closed: a source that is down or has changed shape
+      # writes nothing, so the commit step below keeps the last good panel and
+      # the job still reports the failure.
+      - name: Redraw
+        id: redraw
+        continue-on-error: true
+        run: python tools/build_live.py --user "${{ github.repository_owner }}"
+
+      - name: Commit if a panel moved
+        run: |
+          if [ -z "$(git status --porcelain assets)" ]; then
+            echo "no change"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets
+          git commit -m "chore(assets): redraw live panels"
+          git push
+
+      - name: Surface a failed source
+        if: steps.redraw.outcome == 'failure'
+        run: |
+          echo "::error::a panel source failed; the previous panel is still committed"
+          exit 1

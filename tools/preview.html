@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>panel preview</title>
+<!--
+  Every panel at 1:1 on both GitHub canvases. The panels are dark only (see
+  tools/build_assets.py for why), so the light band is the check that they read
+  as deliberate cards on a white page rather than as broken images.
+  Full-page preview lives in tools/preview_readme.py.
+-->
+<style>
+  body { margin: 0; font: 13px -apple-system, "Segoe UI", sans-serif; }
+  section { padding: 24px 32px; }
+  .dark  { background: #0d1117; }
+  .light { background: #ffffff; }
+  h2 { font: 600 11px ui-monospace, Consolas, monospace; letter-spacing: 1.5px;
+       text-transform: uppercase; margin: 0 0 14px; color: #7d8590; }
+  .row { display: flex; gap: 12px; margin-bottom: 12px; }
+  img { display: block; margin-bottom: 12px; }
+</style>
+<section class="dark">
+  <h2>on GitHub dark</h2>
+  <img src="../assets/hero.svg">
+  <img src="../assets/stats.svg">
+  <div class="row">
+    <img src="../assets/card-aitb.svg">
+    <img src="../assets/card-mico.svg">
+  </div>
+  <img src="../assets/card-nexus.svg">
+  <img src="../assets/card-debox.svg">
+  <img src="../assets/proof.svg">
+  <img src="../assets/stack.svg">
+  <img src="../assets/activity.svg">
+</section>
+<section class="light">
+  <h2>on GitHub light</h2>
+  <img src="../assets/hero.svg">
+  <img src="../assets/stats.svg">
+  <div class="row">
+    <img src="../assets/card-aitb.svg">
+    <img src="../assets/card-mico.svg">
+  </div>
+  <img src="../assets/card-nexus.svg">
+  <img src="../assets/card-debox.svg">
+  <img src="../assets/proof.svg">
+  <img src="../assets/stack.svg">
+  <img src="../assets/activity.svg">
+</section>
