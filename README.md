@@ -1,42 +1,53 @@
 <!--
-  Artwork is generated, not hand-edited.
-    python tools/build_assets.py   static panels
-    python tools/build_live.py     hero status lights, counters, activity
-  Rules (700px, dark only, every image wrapped in a real link, no internals in
-  the copy) are written down at the top of tools/build_assets.py.
+  The figure and every number between live markers are written by
+  tools/build.py, which an Action runs each morning. Edit the prose freely;
+  leave the markers where they are.
 -->
 
-<a href="https://github.com/danYb16/danYb16"><img alt="Dani, solo developer in Romania. I build AI support systems for Discord, and built my own AI platform along the way. Status board: aiticketbot.com, nexbrain.dev and micoapp.io are up." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/hero.svg" width="100%"></a>
+# I build AI support for Discord.
 
-<a href="https://aiticketbot.com"><img alt="Live counters: 3,458 servers, 185.9K tickets handled, 49 percent resolved by AI, 4.7 second average first reply." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/stats.svg" width="100%"></a>
+I'm Dani, a solo developer in Romania. I write the bots, the AI platform under them, the dashboards, the billing and the ops, and I run all of it in production.
 
-## What I build
+<a href="https://aiticketbot.com"><picture><source media="(max-width: 540px)" srcset="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/figure-narrow.svg"><img alt="AI Ticket Bot, live: tickets handled, Discord servers, share of tickets resolved by AI and average first reply time." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/figure-wide.svg" width="100%"></picture></a>
 
-<a href="https://aiticketbot.com"><img alt="AI Ticket Bot, aiticketbot.com. AI support for Discord servers and their sites. Members get answers, staff get only the hard tickets. Discord, web widget, Nexus AI." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/card-aitb.svg" width="49%"></a> <a href="https://micoapp.io"><img alt="Mico, micoapp.io. AI screening for Discord applications. Scores every answer, flags the AI-written ones. Discord, Next.js, OpenAI." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/card-mico.svg" width="49%"></a>
+<sub>Read from <a href="https://aiticketbot.com">AI Ticket Bot</a>'s public stats and redrawn every morning by an <a href="https://github.com/danYb16/danYb16/blob/main/.github/workflows/live.yml">Action in this repo</a>.</sub>
 
-<a href="https://nexbrain.dev"><img alt="Nexus, nexbrain.dev, my platform. The AI platform behind AI Ticket Bot. Per-customer memory, training and usage metering. Python, FastAPI, Postgres, Claude." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/card-nexus.svg" width="100%"></a>
+## What I run
 
-<a href="https://www.deboxperformance.ro"><img alt="Client work: Debox Performance, deboxperformance.ro. PHP and MariaDB." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/card-debox.svg" width="100%"></a>
+### <a href="https://aiticketbot.com"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-aitb.svg" width="12" height="12" alt=""> AI Ticket Bot</a>
 
-## In production
+AI support for Discord servers and their websites. Members get an answer in seconds, and staff only see the tickets that need a person. It runs in <!--live:servers-->4,426<!--/live--> servers and has handled <!--live:tickets-->199,045<!--/live--> tickets.
 
-<a href="https://github.com/danYb16/danYb16"><img alt="Claude Code daily, over a year on production code. Two AI stacks, Claude and OpenAI serving paying users. 37 languages, every user-facing surface localized. Full-stack solo: bots, APIs, dashboards, billing and ops." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/proof.svg" width="100%"></a>
+<sub>Python · Discord · web widget · runs on Nexus</sub>
 
-## Stack
+### <a href="https://nexbrain.dev"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-nexus.svg" width="12" height="12" alt=""> Nexus</a>
 
-<a href="https://github.com/danYb16/danYb16"><img alt="Python, TypeScript, PHP, FastAPI, Next.js, Tailwind, MariaDB, Postgres, Stripe, OpenAI, Claude, Discord." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/stack.svg" width="100%"></a>
+The AI platform I built to power AI Ticket Bot. It gives every customer their own memory, training and usage metering.
 
-## The last year
+<sub>Python · FastAPI · Postgres · Claude</sub>
 
-<a href="https://github.com/danYb16/danYb16/blob/main/.github/workflows/live.yml"><img alt="2,322 contributions, 229 active days out of 365, 26 day current streak, 35 day longest streak." src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/activity.svg" width="100%"></a>
+### <a href="https://micoapp.io"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-mico.svg" width="12" height="12" alt=""> Mico</a>
 
-<sub>Nearly all of it in private repositories. The status lights, the counters
-and these four numbers are read from live sources and redrawn every morning by
-an <a href="https://github.com/danYb16/danYb16/blob/main/.github/workflows/live.yml">Action in this repo</a>.
-Nothing on this page is a screenshot.</sub>
+AI screening for Discord applications. It scores every answer and flags the ones written by AI, so staff can accept or deny from one dashboard.
+
+<sub>TypeScript · Next.js · OpenAI</sub>
+
+### <a href="https://www.deboxperformance.ro"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-debox.svg" width="12" height="12" alt=""> Debox Performance</a>
+
+Client work: the website for a car tuning workshop in Romania.
+
+<sub>PHP · MariaDB</sub>
+
+## How I work
+
+<!--live:contributions-->3,187<!--/live--> contributions in the last year, on <!--live:active_days-->267<!--/live--> of its days. Nearly all of it is in private repositories, which is why this page links to products instead of code.
+
+- Claude and OpenAI both run in production for paying users.
+- Every user-facing surface is localized into 37 languages.
+- I have used Claude Code daily on production code for over a year.
 
 ## Contact
 
 **beeandaniel@gmail.com**
 
-The products above are live. The fastest demo is opening one.
+The products are live, so the fastest demo is opening one.

@@ -1,9 +1,8 @@
-name: live panels
+name: live numbers
 
-# Redraws the three panels that carry live state:
-#   assets/hero.svg      status lights from a real request to each product site
-#   assets/stats.svg     the product's public stats endpoint
-#   assets/activity.svg  the public contribution feed
+# Rebuilds everything that carries live state:
+#   assets/figure-*.svg  the product's public stats endpoint
+#   README.md            the same stats, plus the public contribution feed
 #
 # Daily, plus a manual run from the Actions tab. No secrets and no third-party
 # actions: every source is public, so nothing here needs a token beyond the
@@ -18,11 +17,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: live-panels
+  group: live-numbers
   cancel-in-progress: true
 
 jobs:
-  redraw:
+  rebuild:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,28 +30,28 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Each panel fails closed: a source that is down or has changed shape
-      # writes nothing, so the commit step below keeps the last good panel and
-      # the job still reports the failure.
-      - name: Redraw
-        id: redraw
+      # Each source fails closed: one that is down or has changed shape writes
+      # nothing, so the commit step below keeps the last good numbers and the
+      # job still reports the failure.
+      - name: Rebuild
+        id: rebuild
         continue-on-error: true
-        run: python tools/build_live.py --user "${{ github.repository_owner }}"
+        run: python tools/build.py --user "${{ github.repository_owner }}"
 
-      - name: Commit if a panel moved
+      - name: Commit if a number moved
         run: |
-          if [ -z "$(git status --porcelain assets)" ]; then
+          if [ -z "$(git status --porcelain assets README.md)" ]; then
             echo "no change"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets
-          git commit -m "chore(assets): redraw live panels"
+          git add assets README.md
+          git commit -m "chore: refresh live numbers"
           git push
 
       - name: Surface a failed source
-        if: steps.redraw.outcome == 'failure'
+        if: steps.rebuild.outcome == 'failure'
         run: |
-          echo "::error::a panel source failed; the previous panel is still committed"
+          echo "::error::a source failed; the previous numbers are still committed"
           exit 1

@@ -1,18 +1,22 @@
 """
 Renders README.md through GitHub's own markdown API and wraps it in GitHub's
-page styling at the real profile column width (~700px), so the preview shows
-what the profile will actually look like rather than what a local markdown
-library thinks it should.
+page styling, so the preview shows what the profile will actually look like
+rather than what a local markdown library thinks it should.
 
-Shown on both canvases, because the panels are dark only: the point of the light
-pass is to confirm dark cards read as deliberate on a white page rather than
-broken.
+Writes one page per theme. The sheet is fluid, so opening a page in a narrow
+window (or a phone emulator) exercises the <picture> swap the same way GitHub
+does. Check both themes at both widths: the figure has no background and must
+hold on either canvas.
+
+The API runs in "gfm" mode. Its "markdown" mode is not the pipeline READMEs go
+through: it wraps the <img> inside a <picture> in a link, which stops the
+browser picking a <source> and makes a linked <picture> look broken.
 
 Image URLs are rewritten to the local assets/ copies, since the raw.github URLs
 only resolve once a change is pushed.
 
 Run:  python tools/preview_readme.py
-Then: open tools/_readme.html
+Then: open tools/_readme-light.html and tools/_readme-dark.html
 """
 
 import json
@@ -24,40 +28,44 @@ RAW = "https://raw.githubusercontent.com/danYb16/danYb16/main/"
 
 PAGE = """<!doctype html>
 <meta charset="utf-8">
-<title>README preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>README preview, {theme}</title>
 <style>
-  body {{ margin: 0; }}
-  .band {{ padding: 28px 0 48px; }}
-  .wrap {{ width: 766px; margin: 0 auto; }}
-  .sheet {{ border: 1px solid #d1d9e0; border-radius: 6px; padding: 32px;
+  body {{ margin: 0; padding: 16px; background: {bg}; }}
+  .sheet {{ max-width: 846px; margin: 0 auto; box-sizing: border-box;
+            border: 1px solid {line}; border-radius: 6px; padding: 24px;
             font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI",
-            Helvetica, Arial, sans-serif; color: #1f2328; }}
-  .sheet h2 {{ font-size: 24px; font-weight: 600; padding-bottom: .3em;
-               border-bottom: 1px solid #d1d9e0; margin: 24px 0 16px; }}
-  .sheet p {{ margin: 0 0 16px; }}
-  .sheet a {{ color: #0969da; text-decoration: none; }}
-  .sheet img {{ max-width: 100%; vertical-align: top; }}
-  .sheet sub {{ font-size: 12px; color: #59636e; }}
-  .dark {{ background: #0d1117; }}
-  .dark .sheet {{ background: #0d1117; border-color: #3d444d; color: #f0f6fc; }}
-  .dark .sheet h2 {{ border-color: #3d444d; }}
-  .dark .sheet a {{ color: #4493f8; }}
-  .dark .sheet sub {{ color: #9198a1; }}
-  .tag {{ font: 600 11px ui-monospace, Consolas, monospace; letter-spacing: 1.5px;
-          color: #59636e; padding-bottom: 10px; }}
-  .dark .tag {{ color: #9198a1; }}
+            Helvetica, Arial, sans-serif; color: {ink}; }}
+  @media (max-width: 540px) {{ body {{ padding: 0; }}
+            .sheet {{ border: 0; padding: 16px; }} }}
+  .sheet h1, .sheet h2 {{ font-weight: 600; padding-bottom: .3em;
+            border-bottom: 1px solid {line}; margin: 24px 0 16px; }}
+  .sheet h1 {{ font-size: 2em; margin-top: 0; }}
+  .sheet h2 {{ font-size: 1.5em; }}
+  .sheet h3 {{ font-size: 1.25em; font-weight: 600; margin: 24px 0 16px; }}
+  .sheet p, .sheet ul {{ margin: 0 0 16px; }}
+  .sheet ul {{ padding-left: 2em; }}
+  .sheet li + li {{ margin-top: .25em; }}
+  .sheet a {{ color: {link}; text-decoration: none; }}
+  .sheet img {{ max-width: 100%; }}
+  .sheet sub {{ font-size: 12px; color: {muted}; }}
+  .anchor {{ display: none; }}
 </style>
-<div class="band {cls}"><div class="wrap">
-  <div class="tag">{tag}</div>
-  <div class="sheet">{html}</div>
-</div></div>
+<div class="sheet">{html}</div>
 """
+
+THEMES = {
+    "light": dict(bg="#ffffff", line="#d1d9e0", ink="#1f2328", link="#0969da",
+                  muted="#59636e"),
+    "dark": dict(bg="#0d1117", line="#3d444d", ink="#f0f6fc", link="#4493f8",
+                 muted="#9198a1"),
+}
 
 
 def render(markdown: str) -> str:
     request = urllib.request.Request(
         "https://api.github.com/markdown",
-        data=json.dumps({"text": markdown, "mode": "markdown"}).encode(),
+        data=json.dumps({"text": markdown, "mode": "gfm"}).encode(),
         headers={
             "Content-Type": "application/json",
             "Accept": "application/vnd.github+json",
@@ -71,14 +79,11 @@ def render(markdown: str) -> str:
 def main():
     markdown = (ROOT / "README.md").read_text(encoding="utf-8").replace(RAW, "../")
     html = render(markdown)
-
-    out = ROOT / "tools" / "_readme.html"
-    out.write_text(
-        PAGE.format(cls="light", tag="GITHUB LIGHT", html=html)
-        + PAGE.format(cls="dark", tag="GITHUB DARK", html=html),
-        encoding="utf-8",
-    )
-    print(f"wrote {out}")
+    for theme, colours in THEMES.items():
+        out = ROOT / "tools" / f"_readme-{theme}.html"
+        out.write_text(PAGE.format(theme=theme, html=html, **colours),
+                       encoding="utf-8")
+        print(f"wrote {out}")
 
 
 if __name__ == "__main__":
