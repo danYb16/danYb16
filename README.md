@@ -16,7 +16,7 @@ I'm Dani, a solo developer in Romania. I write the bots, the AI platform under t
 
 ### <a href="https://aiticketbot.com"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-aitb.svg" width="12" height="12" alt=""> AI Ticket Bot</a>
 
-AI support for Discord servers and their websites. Members get an answer in seconds, and staff only see the tickets that need a person. It runs in <!--live:servers-->4,998<!--/live--> servers and has handled <!--live:tickets-->205,886<!--/live--> tickets.
+AI support for Discord servers and their websites. Members get an answer in seconds, and staff only see the tickets that need a person. It runs in <!--live:servers-->5,165<!--/live--> servers and has handled <!--live:tickets-->207,929<!--/live--> tickets.
 
 <sub>Python · Discord · web widget · runs on Nexus</sub>
 
@@ -40,7 +40,7 @@ Client work: the website for a car tuning workshop in Romania.
 
 ## How I work
 
-<!--live:contributions-->3,270<!--/live--> contributions in the last year, on <!--live:active_days-->267<!--/live--> of its days. Nearly all of it is in private repositories, which is why this page links to products instead of code.
+<!--live:contributions-->3,333<!--/live--> contributions in the last year, on <!--live:active_days-->269<!--/live--> of its days. Nearly all of it is in private repositories, which is why this page links to products instead of code.
 
 - Claude and OpenAI both run in production for paying users.
 - Every user-facing surface is localized into 37 languages.
