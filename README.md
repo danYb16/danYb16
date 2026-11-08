@@ -16,7 +16,7 @@ I'm Dani, a solo developer in Romania. I write the bots, the AI platform under t
 
 ### <a href="https://aiticketbot.com"><img src="https://raw.githubusercontent.com/danYb16/danYb16/main/assets/dot-aitb.svg" width="12" height="12" alt=""> AI Ticket Bot</a>
 
-AI support for Discord servers and their websites. Members get an answer in seconds, and staff only see the tickets that need a person. It runs in <!--live:servers-->6,986<!--/live--> servers and has handled <!--live:tickets-->251,774<!--/live--> tickets.
+AI support for Discord servers and their websites. Members get an answer in seconds, and staff only see the tickets that need a person. It runs in <!--live:servers-->7,066<!--/live--> servers and has handled <!--live:tickets-->253,430<!--/live--> tickets.
 
 <sub>Python · Discord · web widget · runs on Nexus</sub>
 
